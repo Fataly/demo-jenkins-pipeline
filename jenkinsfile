@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        docker {image 'node:18-alpine'}
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url : 'https://github.com/Fataly/demo-jenkins-pipeline.git', branch: 'main'
+            }
+        }
+    }
+
+    stages {
+        stage('Install depencies') {
+            steps {
+                sh 'npm ci'
+            }
+        }        
+    stages {
+        stage('Run test') {
+            steps {
+                sh 'npm test'
+                junit 'junit.xml'
+            }
+        }
+    }
+
+
+    post {
+        always {
+
+            echo "Fin "
+
+        }
+
+        failure {
+
+            echo "Build échoué "
+
+        }
+        success {
+
+            echo "Build Ok "
+
+        }
+
+    }
+    }
+}
