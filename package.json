@@ -1,0 +1,1 @@
+'test': "jest --ci --reporters=default --reporters=jest-junit"
